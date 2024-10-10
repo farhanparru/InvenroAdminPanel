@@ -1,6 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
-import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify } from 'react-icons/bs';
+import { BsPersonCircle, BsJustify } from 'react-icons/bs';
+import logo from '../assets/Images/Logo.png'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 function Headr({ OpenSidebar }) {
@@ -10,28 +13,45 @@ function Headr({ OpenSidebar }) {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/admin/Logout'); // Replace with your actual endpoint
+      console.log(response,"kk");
+      
+      if (response.data.success) {
+        navigate('/') // login page
+
+        localStorage.removeItem('adminToken');
+
+        
+        console.log("Logged out successfully");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }
+
   return (
-    <header className="flex justify-between items-center p-4 bg-blue-300 text-white">
-      <div className="flex items-center">
+    <header className="flex justify-between items-center p-4 bg-blue-500 text-white">
+      <div className="flex items-center space-x-4">
         <BsJustify className="text-2xl cursor-pointer" onClick={OpenSidebar} />
+        {/* Add company logo here */}
+        <img
+          src={logo} // Replace with actual logo path
+          alt="Company Logo"
+          className="h-11 w-11" // Adjust height and width as needed
+        />
       </div>
       <div className="flex items-center space-x-4">
-        <BsSearch className="text-2xl cursor-pointer" />
-        <BsFillBellFill className="text-2xl cursor-pointer" />
-        <BsFillEnvelopeFill className="text-2xl cursor-pointer" />
         <div className="relative">
-          <BsPersonCircle className="text-2xl cursor-pointer" onClick={toggleDropdown} />
+        <BsPersonCircle className="text-4xl cursor-pointer" onClick={toggleDropdown} />
+
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10">
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Account & Settings</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Request a Callback</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Help Center</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Tutorial</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Video Tutorial</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Support Center</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">support@email.posbytz.com</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">8248606095</button>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+             
+              <button className="w-full text-left px-4 py-2 hover:bg-gray-100" onClick={handleLogout}>Logout</button>
             </div>
           )}
         </div>

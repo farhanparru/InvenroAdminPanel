@@ -43,7 +43,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           Dashboard
         </Link>
         <Link
-          to="/Sale"
+          to="/Sales"
           className="flex items-center py-2 px-6 text-sm text-white hover:bg-gray-600"
         >
           <FaClipboardList className="mr-3" />
@@ -57,7 +57,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           Reports
         </Link>
         <Link
-          to="/Item"
+          to="/Items"
           className="flex items-center py-2 px-6 text-sm text-white hover:bg-gray-600"
         >
           <FaBoxes className="mr-3" />
@@ -71,7 +71,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           Customers
         </Link>
         <Link
-          to="/Employes"
+          to="/Employee"
           className="flex items-center py-2 px-6 text-sm text-white hover:bg-gray-600"
         >
           <FaUsers className="mr-3" />
@@ -85,7 +85,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           Inventory Management
         </Link>
         <Link
-          to="/ResturentManagment"
+          to="/Resturant"
           className="flex items-center py-2 px-6 text-sm text-white hover:bg-gray-600"
         >
           <FaUtensils className="mr-3" />
@@ -99,7 +99,7 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
           Expense
         </Link>
         <Link
-          to="/AccountsSettings"
+          to="/Accounts"
           className="flex items-center py-2 px-6 text-sm text-white hover:bg-gray-600"
         >
           <FaUserCog className="mr-3" />
