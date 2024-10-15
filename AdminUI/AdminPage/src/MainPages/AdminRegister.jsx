@@ -93,7 +93,7 @@ const AdminRegister = () => {
              {/* Mobile Number with Country Code and Flag */}
              <div className="mb-4">
               <PhoneInput
-                country={"us"}
+                country={"in"}
                 enableSearch={true}
                 placeholder="Your mobile number"
                 inputStyle={{

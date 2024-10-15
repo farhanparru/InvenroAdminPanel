@@ -290,8 +290,6 @@ const Item = () => {
     setStep(step - 1);
   };
 
-
-
   return (
     <div className="p-4 flex flex-col h-screen">
       <div className="flex flex-grow">
@@ -299,7 +297,7 @@ const Item = () => {
           className="flex flex-col flex-grow p-4"
           style={{ marginLeft: "-275px", marginTop: "-48px" }}
         >
-       <ItemHeader/>
+          <ItemHeader />
 
           <div className="flex justify-between items-center mb-4">
             <input
@@ -382,9 +380,8 @@ const Item = () => {
         <form onSubmit={handleFormSubmit}>
           {step === 1 && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* ID Field */}
               <div className="mb-4">
-                <label className="block text-gray-700">ID *</label>
+                ID <span className="text-red-600 text-1xl">*</span>{" "}
                 <input
                   type="text"
                   name="id"
@@ -394,10 +391,12 @@ const Item = () => {
                   onChange={(e) => setId(e.target.value)}
                 />
               </div>
-
-              {/* Title Field */}
+              {/* Itemname Field */}
               <div className="mb-4">
-                <label className="block text-gray-700">Item Name *</label>
+                <label className="block text-gray-700 font-bold">
+                  Item Name <span className="text-red-600 ">*</span>{" "}
+                  {/* Asterisk in red */}
+                </label>
                 <input
                   type="text"
                   name="title"
@@ -407,110 +406,38 @@ const Item = () => {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              {/* Description Field */}
-              <div className="mb-4">
-                <label className="block text-gray-700">Description *</label>
-                <textarea
-                  name="description"
-                  className="p-2 border rounded w-full"
-                  placeholder="Enter a detailed description of the item."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              {/* Availability Field */}
-              <div className="mb-4">
-                <label className="block text-gray-700">Availability *</label>
-                <select
-                  name="availability"
-                  className="p-2 border rounded w-full"
-                  value={availability}
-                  onChange={(e) => setAvailability(e.target.value)}
-                >
-                  <option value="">Select Availability</option>
-                  <option value="in_stock">in_stock</option>
-                  <option value="outofstock">Out of Stock</option>
-                  <option value="preorder">Pre-order</option>
-                </select>
-              </div>
 
-              {/* Condition Field */}
               <div className="mb-4">
-                <label className="block text-gray-700">Condition *</label>
-                <select
-                  name="condition"
-                  className="p-2 border rounded w-full"
-                  value={condition}
-                  onChange={(e) => setCondition(e.target.value)}
-                >
-                  <option value="">Select Condition</option>
-                  <option value="new">New</option>
-                  <option value="used">Used</option>
-                  <option value="refurbished">Refurbished</option>
-                </select>
-              </div>
-
-              {/* Price Field */}
-              <div className="mb-4">
-                <label className="block text-gray-700">Price *</label>
-                <input
-                  type="number"
-                  name="price"
-                  className="p-2 border rounded w-full"
-                  placeholder="Enter Price"
-                  min="0"
-                  required
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-
-              {/* Link Field */}
-              <div className="mb-4">
-                <label className="block text-gray-700">Link</label>
-                <input
-                  type="url"
-                  name="link"
-                  className="p-2 border rounded w-full"
-                  placeholder="Enter Item Link"
-                  value={link}
-                  onChange={(e) => setLink(e.target.value)}
-                  pattern="https://.*"
-                  title="Please enter a valid URL"
-                />
-              </div>
-
-              {/* Brand Field */}
-              <div className="mb-4">
-                <label className="block text-gray-700">Brand</label>
+                <label className="block text-gray-700 font-bold">
+                  Alternate name
+                </label>
                 <input
                   type="text"
-                  name="brand"
+                  name="Alternatename"
+                  placeholder="Tanslate Alternate name"
                   className="p-2 border rounded w-full"
-                  placeholder="Enter Brand"
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}
+                  value=""
                 />
+
+                <select value="" className="p-2 border rounded w-full">
+                  <option value="en">English</option>
+                  <option value="ar">Arabic</option>
+                  <option value="fr">French</option>
+                  <option value="hi">Hindi</option>
+                </select>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  onClick=""
+                >
+                  Translate
+                </button>
               </div>
 
-              {/* Image Field */}
+              {/* Title Field */}
               <div className="mb-4">
-                <label className="block text-gray-700">Image *</label>
-                <input
-                  type="file"
-                  name="imageFile"
-                  className="p-2 border rounded w-full"
-                  onChange={handleFileChange}
-                />
-              </div>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Page 2 fields */}
-              <div className="mb-4">
-                <label className="block text-gray-700">Item Variation</label>
+                <label className="block text-gray-700 font-bold">
+                  Item Variation
+                </label>
                 <input
                   type="text"
                   name="itemVariation"
@@ -520,9 +447,78 @@ const Item = () => {
                   onChange={(e) => setItemVariation(e.target.value)}
                 />
               </div>
-              {/* Other fields for page 2 */}
+
               <div className="mb-4">
-                <label className="block text-gray-700">Item Position</label>
+                <label className="block text-gray-700 font-bold">
+                  Alternate Variation
+                </label>
+                <input
+                  type="text"
+                  name="itemVariation"
+                  placeholder="Transalte itemVariation"
+                  className="p-2 border rounded w-full"
+                  value={ItemVariation}
+                  onChange={(e) => setItemVariation(e.target.value)}
+                />
+                  <select value="" className="p-2 border rounded w-full">
+                  <option value="en">English</option>
+                  <option value="ar">Arabic</option>
+                  <option value="fr">French</option>
+                  <option value="hi">Hindi</option>
+                </select>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  onClick=""
+                >
+                  Translate
+                </button>
+              </div>
+
+              {/* Description Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  className="p-2 border rounded w-full"
+                  placeholder="Enter a detailed description of the item."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+
+              {/* Altrante Description Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Alternate Description
+                </label>
+                <textarea
+                  name="description"
+                  className="p-2 border rounded w-full"
+                  placeholder="Transalte description of the item."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                  <select value="" className="p-2 border rounded w-full">
+                  <option value="en">English</option>
+                  <option value="ar">Arabic</option>
+                  <option value="fr">French</option>
+                  <option value="hi">Hindi</option>
+                </select>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  onClick=""
+                >
+                  Translate
+                </button>
+              </div>
+
+              {/* Availability Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Item Position
+                </label>
                 <input
                   type="text"
                   name="itemPosition"
@@ -533,123 +529,9 @@ const Item = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-gray-700">Food Type</label>
-                <input
-                  type="text"
-                  name="FoodType"
-                  placeholder="Enter FoodType"
-                  className="p-2 border rounded w-full"
-                  value={FoodType}
-                  onChange={(e) => setFoodType(e.target.value)}
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700">Barcode </label>
-                <input
-                  type="text"
-                  name="Barcode "
-                  placeholder="Enter Barcode"
-                  className="p-2 border rounded w-full"
-                  value={BarCode}
-                  onChange={(e) => setBarCode(e.target.value)}
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700">
-                  Included tax / Exclude
-                </label>
-                <select
-                  name="tax"
-                  className="p-2 border rounded w-full"
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    Select Tax
-                  </option>
-                  <option value="cgst">CGST 2.5%</option>
-                  <option value="sgst">SGST 2.5%</option>
-                  <option value="igst">IGST 5%</option>
-                  <option value="no_tax">No Tax</option>
-                </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700">Item Code *</label>
-                <input
-                  type="text"
-                  name="Itemcode"
-                  className="p-2 border rounded w-full"
-                  placeholder="Enter Item Code"
-                  value={Itemcode}
-                  onChange={(e) => setItemcode(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">
-                  Stock Restricted *
-                </label>
-                <input
-                  type="text"
-                  name="stockRestricted"
-                  className="p-2 border rounded w-full"
-                  placeholder="Enter Stock Restricted"
-                  value=""
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700">Alternate name</label>
-                <input
-                  type="text"
-                  name="Alternatename"
-                  placeholder="Tanslate Alternate name"
-                  className="p-2 border rounded w-full"
-                  value=""
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700">Short code </label>
-                <input
-                  type="text"
-                  name="Shortcode"
-                  placeholder="Enter Shortcode"
-                  className="p-2 border rounded w-full"
-                  value=""
-                />
-              </div>
-
-              <div className="mb-4">
-                {/* Select Device Field */}
-                <label className="block text-gray-700">Select Device *</label>
-                <select
-                  name="Device"
-                  className="p-2 border rounded w-full"
-                  value={
-                    devices.find((device) => device.Name === deviceName)?._id ||
-                    ""
-                  }
-                  onChange={handleDeviceChange}
-                  required
-                >
-                  <option value="">Select Device</option>
-                  {devices.length > 0 &&
-                    devices.map((device, index) => (
-                      <option key={index} value={device._id}>
-                        {device.Name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-
               {/* Select Category Field */}
               <div className="mb-4">
-                <label className="block text-gray-700">Select Category *</label>
+                Category<span className="text-red-600 text-1xl">*</span>{" "}
                 <div className="relative">
                   <button
                     type="button"
@@ -686,18 +568,241 @@ const Item = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700">Enter Note</label>
+                {/* Select Device Field */}
+                <label className="block text-gray-700 font-bold">
+                  Select Device
+                </label>
+                <select
+                  name="Device"
+                  className="p-2 border rounded w-full"
+                  value={
+                    devices.find((device) => device.Name === deviceName)?._id ||
+                    ""
+                  }
+                  onChange={handleDeviceChange}
+                  required
+                >
+                  <option value="">Select Device</option>
+                  {devices.length > 0 &&
+                    devices.map((device, index) => (
+                      <option key={index} value={device._id}>
+                        {device.Name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+
+              {/* Condition Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Condition
+                </label>
+                <select
+                  name="condition"
+                  className="p-2 border rounded w-full"
+                  value={condition}
+                  onChange={(e) => setCondition(e.target.value)}
+                >
+                  <option value="">Select Condition</option>
+                  <option value="new">New</option>
+                  <option value="used">Used</option>
+                  <option value="refurbished">Refurbished</option>
+                </select>
+              </div>
+
+              {/* Price Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold"></label>
+                Price <span className="text-red-600 text-1xl">*</span>{" "}
+                <input
+                  type="number"
+                  name="price"
+                  className="p-2 border rounded w-full"
+                  placeholder="Enter Price"
+                  min="0"
+                  required
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </div>
+
+              {/* Link Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">Link</label>
+                <input
+                  type="url"
+                  name="link"
+                  className="p-2 border rounded w-full"
+                  placeholder="Enter SheetItem Link"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  pattern="https://.*"
+                  title="Please enter a valid URL"
+                />
+              </div>
+
+              {/* Brand Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">Brand</label>
                 <input
                   type="text"
-                  name="EnterNote"
-                  placeholder="EnterNote"
+                  name="brand"
+                  className="p-2 border rounded w-full"
+                  placeholder="Enter sheetItem Brand"
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                />
+              </div>
+
+              {/* Image Field */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">Image </label>
+                <input
+                  type="file"
+                  name="imageFile"
+                  placeholder="Enter sheetItem Image"
+                  className="p-2 border rounded w-full"
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Page 2 fields */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">ID *</label>
+                <input
+                  type="text"
+                  name="id"
+                  className="p-2 border rounded w-full"
+                  placeholder="Enter SheetItem ID"
+                  value={id}
+                  onChange={(e) => setId(e.target.value)}
+                />
+              </div>
+              {/* Other fields for page 2 */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Availability *
+                </label>
+                <select
+                  name="availability"
+                  placeholder="Enter SheetItem Availability"
+                  className="p-2 border rounded w-full"
+                  value={availability}
+                  onChange={(e) => setAvailability(e.target.value)}
+                >
+                  <option value="">Select Availability</option>
+                  <option value="in_stock">in_stock</option>
+                  <option value="outofstock">Out of Stock</option>
+                  <option value="preorder">Pre-order</option>
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  ItemName
+                </label>
+                <input
+                  type="text"
+                  name="FoodType"
+                  placeholder="Enter SheetItem name"
+                  className="p-2 border rounded w-full"
+                  value={FoodType}
+                  onChange={(e) => setFoodType(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Food Type
+                </label>
+                <input
+                  type="text"
+                  name="FoodType"
+                  placeholder="Enter FoodType"
+                  className="p-2 border rounded w-full"
+                  value={FoodType}
+                  onChange={(e) => setFoodType(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Barcode{" "}
+                </label>
+                <input
+                  type="text"
+                  name="Barcode "
+                  placeholder="Enter Barcode"
+                  className="p-2 border rounded w-full"
+                  value={BarCode}
+                  onChange={(e) => setBarCode(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">ItemTax</label>
+                <select
+                  name="tax"
+                  className="p-2 border rounded w-full"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select Tax
+                  </option>
+                  <option value="cgst">CGST 2.5%</option>
+                  <option value="sgst">SGST 2.5%</option>
+                  <option value="igst">IGST 5%</option>
+                  <option value="no_tax">No Tax</option>
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Item Code *
+                </label>
+                <input
+                  type="text"
+                  name="Itemcode"
+                  className="p-2 border rounded w-full"
+                  placeholder="Enter Item Code"
+                  value={Itemcode}
+                  onChange={(e) => setItemcode(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Item Stock *
+                </label>
+                <input
+                  type="text"
+                  name="stockRestricted"
+                  className="p-2 border rounded w-full"
+                  placeholder="Enter Stock Restricted"
+                  value=""
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Short code{" "}
+                </label>
+                <input
+                  type="text"
+                  name="Shortcode"
+                  placeholder="Enter Shortcode"
                   className="p-2 border rounded w-full"
                   value=""
                 />
               </div>
 
               {/* isOnlineAvailable Checkbox */}
-              <div className="mb-4 flex items-center">
+              <div className="mb-4 flex items-center font-bold">
                 <input
                   type="checkbox"
                   name="isOnlineAvailable"
@@ -721,8 +826,34 @@ const Item = () => {
                 </label>
               </div>
 
+              {/* Catalog Available Checkbox */}
+              <div className="mb-4 flex items-center font-bold">
+                <input
+                  type="checkbox"
+                  name="isOnlineAvailable"
+                  checked={isOnlineAvailable}
+                  onChange={() => setIsOnlineAvailable(!isOnlineAvailable)}
+                  className="h-4 w-4"
+                />
+                <label className="ml-2 block text-gray-700 flex items-center">
+                  {isOnlineAvailable && (
+                    <span
+                      className="material-icons text-green-500 transition-transform transform scale-0 inline-block"
+                      style={{
+                        transition: "transform 0.3s ease, color 0.3s ease",
+                        transform: "scale(1)",
+                      }}
+                    >
+                      check_circle
+                    </span>
+                  )}
+                  <span className="ml-2">Catalog Available</span>{" "}
+                  {/* Changed here */}
+                </label>
+              </div>
+
               {/* isPosAvailable Checkbox */}
-              <div className="mb-4 flex items-center">
+              <div className="mb-4 flex items-center font-bold">
                 <input
                   type="checkbox"
                   name="isPosAvailable"
