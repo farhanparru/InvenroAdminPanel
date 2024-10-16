@@ -18,6 +18,7 @@ import HomeTable from './MainPages/HomeTable';
 import ProtectedRoute from './MainPages/ProtectedRoute';
 import TaxItem from './MainPages/Headr/TaxItem';
 import Categories from './MainPages/Headr/Categories';
+import Termscondion from './MainPages/Termscondion';
 
 // eslint-disable-next-line react/prop-types
 const AppLayout = ({ children }) => {
@@ -25,6 +26,7 @@ const AppLayout = ({ children }) => {
   const isLoginPage = location.pathname === '/'; // Check if current route is login
   const isSignupPage = location.pathname === '/AdminSignup'; // Check if current route is sign-up
   const isForgotpass = location.pathname === '/forgotPass'; // Check if current route is forgot password
+  const isTersmConditon = location.pathname === '/TermsConditon'
 
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
@@ -36,9 +38,9 @@ const AppLayout = ({ children }) => {
     <div className="flex flex-col min-h-screen">
     
       {/* Render Navbar and Sidebar only if it's NOT the login, sign-up, or forgot password page */}
-      {!isLoginPage && !isSignupPage && !isForgotpass && <Navbar OpenSidebar={OpenSidebar} />}
+      {!isLoginPage && !isSignupPage && !isForgotpass && !isTersmConditon && <Navbar OpenSidebar={OpenSidebar} />}
       <div className="flex flex-grow">
-        {!isLoginPage && !isSignupPage && !isForgotpass && (
+        {!isLoginPage && !isSignupPage && !isForgotpass && !isTersmConditon && (
           <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
         )}
         <div
@@ -73,6 +75,7 @@ function App() {
           <Route path='/HomeTable' element={<ProtectedRoute><HomeTable/></ProtectedRoute>}/>
           <Route path='/ItemTaxes' element={<TaxItem/>}/>
           <Route path='/ItemCategorys' element={<Categories/>}/>
+          <Route path='/TermsConditon' element={<Termscondion/>}/>
         </Routes>
       </AppLayout>
     </Router>

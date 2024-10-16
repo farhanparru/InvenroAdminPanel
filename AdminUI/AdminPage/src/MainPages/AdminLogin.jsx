@@ -130,7 +130,7 @@ const LoginForm = () => {
           {/* Terms and Conditions */}
           <p className="text-sm text-gray-600 text-center mb-4">
             By clicking login, I accept the{" "}
-            <Link to="/terms" className="text-orange-600 hover:underline">
+            <Link to="/TermsConditon" className="text-orange-600 hover:underline">
               Terms & Conditions
             </Link>
             .

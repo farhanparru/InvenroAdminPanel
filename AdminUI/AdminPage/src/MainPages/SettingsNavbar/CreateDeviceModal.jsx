@@ -11,7 +11,7 @@ const CreateDeviceModal = ({ isOpen, onClose, onSave, device }) => {
   const [IPAddress, setIPaddress] = useState('');
   const [deviceType, setDeviceType] = useState('KOT');
   const [loading, setLoading] = useState(false);
-  const [setError] = useState(null);
+
 
   useEffect(() => {
     if (device) {
@@ -28,7 +28,7 @@ const CreateDeviceModal = ({ isOpen, onClose, onSave, device }) => {
 
   const handleSave = async () => {
     setLoading(true);
-    setError(null);
+    
 
     const updatedDevice = {
       Name: name,
@@ -36,6 +36,8 @@ const CreateDeviceModal = ({ isOpen, onClose, onSave, device }) => {
       IPAddress: IPAddress,
       Devices: deviceType,
     };
+
+    
 
     onSave(updatedDevice);
   };
@@ -68,9 +70,9 @@ const CreateDeviceModal = ({ isOpen, onClose, onSave, device }) => {
         <div className="mb-4">
           <label className="block text-gray-700">Device Type *</label>
           <select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} className="w-full border border-gray-300 p-2 rounded mt-1">
+            <option value="printer">printer</option>
+            <option value="Waiter">Waiter</option>
             <option value="KOT">KOT</option>
-            <option value="KDS">KDS</option>
-            <option value="Receipt">Receipt</option>
           </select>
         </div>
 
