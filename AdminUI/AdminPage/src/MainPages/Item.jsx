@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import ExcelImportModal from "./ExcelModel";
+import { FaMobileAlt, FaDesktop ,FaSync} from "react-icons/fa";
 
 import Modal from "react-modal";
 import AddCategory from "./AddCategory"; // Import the AddCategory component
@@ -57,7 +58,7 @@ const Item = () => {
   const toggleDropdown = (id) => {
     setDropdownOpen(dropdownOpen === id ? null : id);
   };
-  
+
   const openItemModal = () => {
     setItemModalIsOpen(true);
   };
@@ -300,7 +301,11 @@ const Item = () => {
       <div className="flex flex-grow">
         <div
           className="flex flex-col flex-grow p-4"
-          style={{ marginLeft: "-235px", marginTop: "-59px", marginRight:"-51px" }}
+          style={{
+            marginLeft: "-235px",
+            marginTop: "-59px",
+            marginRight: "-51px",
+          }}
         >
           <ItemHeader />
 
@@ -375,11 +380,11 @@ const Item = () => {
                     <FaEllipsisV />
                   </button>
                   {dropdownOpen === item._id && (
-                    <div className="absolute left-66 right-59  mt-1 w-40 bg-white border border-gray-200 rounded shadow-lg z-10" style={{marginLeft:"-59px"}}>
-                      <button
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      
-                      >
+                    <div
+                      className="absolute left-66 right-59  mt-1 w-40 bg-white border border-gray-200 rounded shadow-lg z-10"
+                      style={{ marginLeft: "-59px" }}
+                    >
+                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         <FaEdit /> Edit
                       </button>
                       <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -442,8 +447,6 @@ const Item = () => {
                   className="p-2 border rounded w-full"
                   value=""
                 />
-
-               
               </div>
 
               {/* Title Field */}
@@ -473,7 +476,6 @@ const Item = () => {
                   value={ItemVariation}
                   onChange={(e) => setItemVariation(e.target.value)}
                 />
-               
               </div>
 
               {/* Description Field */}
@@ -502,7 +504,6 @@ const Item = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-               
               </div>
 
               {/* Availability Field */}
@@ -813,7 +814,13 @@ const Item = () => {
                       check_circle
                     </span>
                   )}
-                  <span className="ml-2">Is Online Available</span>
+                  <div className="flex items-center space-x-2">
+                    <FaMobileAlt className="text-blue-500" /> {/* App icon */}
+                    <FaDesktop className="text-green-500" /> {/* Web icon */}
+                    <span className="text-gray-700 font-semibold">
+                      App & Web Available
+                    </span>
+                  </div>
                 </label>
               </div>
 
@@ -838,7 +845,10 @@ const Item = () => {
                       check_circle
                     </span>
                   )}
-                  <span className="ml-2">Catalog Available</span>{" "}
+                  <div className="flex items-center">
+  <FaSync className="text-blue-500" /> {/* Sync icon */}
+  <span className="ml-2">Catalog Sync Available</span>
+</div>
                   {/* Changed here */}
                 </label>
               </div>

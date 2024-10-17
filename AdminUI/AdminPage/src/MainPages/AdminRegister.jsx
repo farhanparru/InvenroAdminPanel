@@ -80,11 +80,14 @@ const AdminRegister = () => {
                 </option>
                 <optgroup label="Restaurant">
                   <option>Restaurant</option>
-                  <option>Cloud kitchen</option>
+                  <option>Bar & Restaurant</option>
+                  <option>Cloud Kitchen</option>
+                  <option>Resto Bar & Pub </option>
+                  <option>Others</option>
                   <option>Cafe</option>
-                  <option>Supermarket </option>
-                  <option>Retail</option>
-                  <option>Other</option>
+                  <option>Ice Cream Parlour</option>
+                  <option>Food Truck</option>
+                  <option>Juice Shop</option>
                 </optgroup>
                
               </select>
