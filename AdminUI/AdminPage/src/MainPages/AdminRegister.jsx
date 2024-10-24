@@ -89,12 +89,11 @@ const AdminRegister = () => {
                   <option>Food Truck</option>
                   <option>Juice Shop</option>
                 </optgroup>
-               
               </select>
             </div>
 
-             {/* Mobile Number with Country Code and Flag */}
-             <div className="mb-4">
+            {/* Mobile Number with Country Code and Flag */}
+            <div className="mb-4">
               <PhoneInput
                 country={"in"}
                 enableSearch={true}
@@ -126,7 +125,6 @@ const AdminRegister = () => {
               />
             </div>
 
-           
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -151,9 +149,22 @@ const AdminRegister = () => {
             </div>
 
             <div className="mb-6 text-sm text-gray-500">
-              You are agreeing to the Terms of Service and Privacy Policy.
+              By clicking, you agree to the{" "}
+              <Link
+                to="/terms-of-service"
+                className="text-blue-600 hover:underline"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                to="/PrivacyPolicy"
+                className="text-blue-600 hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              .
             </div>
-
             {/* Submit Button */}
             <button className="w-full bg-blue-600 text-white py-3 rounded font-bold">
               Get Started

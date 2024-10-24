@@ -1,16 +1,20 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import ExcelImportModal from "./ExcelModel";
-import { FaMobileAlt, FaDesktop ,FaSync} from "react-icons/fa";
+import { FaMobileAlt, FaDesktop, FaSync } from "react-icons/fa";
+import { MdPointOfSale, MdCheckCircle } from "react-icons/md"; // Import icons
 
 import Modal from "react-modal";
 import AddCategory from "./AddCategory"; // Import the AddCategory component
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { AiFillFileExcel } from "react-icons/ai";
 import { FaEllipsisV, FaEdit, FaTrash } from "react-icons/fa";
 import ItemHeader from "./Itemheadr";
+import { Select } from "antd";
+
+const { Option } = Select;
 
 Modal.setAppElement("#root");
 
@@ -24,6 +28,7 @@ const Item = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownDirection, setDropdownDirection] = useState("down");
   const [isOnlineAvailable, setIsOnlineAvailable] = useState(false);
+  const [isCatlogAvailable, setIsCatlogAvailable] = useState(false);
   const [isPosAvailable, setIsPosAvailable] = useState(false);
 
   // Form states
@@ -36,23 +41,28 @@ const Item = () => {
   const [ItemVariation, setItemVariation] = useState("");
   const [category, setCategory] = useState("");
   const [ItemPosition, setItemPosition] = useState("");
-  const [AlternateName, setAlternateName] = useState("");
   const [FoodType, setFoodType] = useState("");
-  const [ShortCode, setShortCode] = useState("");
   const [BarCode, setBarCode] = useState("");
   const [price, setPrice] = useState(0);
   const [link, setLink] = useState("");
   const [brand, setBrand] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [id, setId] = useState(""); // Add a new state for the id
-  const [step, setStep] = useState(1); // Tracks which page the user is on
+  const [setImageFile] = useState(null);
+
+  const [id, setId] = useState("");
+  const [step, setStep] = useState(1);
 
   const handleDeviceChange = (e) => {
     const selectedDeviceId = e.target.value;
     const selectedDevice = devices.find(
       (device) => device._id === selectedDeviceId
     );
-    setDeviceName(selectedDevice ? selectedDevice.Name : ""); // Store only the device name
+    setDeviceName(selectedDevice ? selectedDevice.Name : "");
+  };
+
+  const [selectedValues, setSelectedValues] = useState([]);
+
+  const handleChange = (value) => {
+    setSelectedValues(value);
   };
 
   const toggleDropdown = (id) => {
@@ -82,7 +92,6 @@ const Item = () => {
       const spaceBelow = window.innerHeight - bottom;
       const spaceAbove = top;
 
-      // Set direction based on available space
       if (spaceBelow < 160 && spaceAbove > 160) {
         setDropdownDirection("up");
       } else {
@@ -144,7 +153,7 @@ const Item = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/user/ExcelItems") // Adjust your API endpoint
+      .get("http://localhost:8000/api/admin/getExcel/Melparamba") // Adjust your API endpoint
       .then((response) => {
         setItems(response.data);
       })
@@ -166,113 +175,10 @@ const Item = () => {
     }
   }, [itemModalIsOpen]);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-
-    // Online Availability
-    if (isOnlineAvailable) {
-      formData.append("id", id);
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("availability", availability);
-      formData.append("condition", condition);
-      formData.append("price", price);
-      formData.append("link", link);
-      formData.append("brand", brand);
-      formData.append("imageFile", imageFile);
-
-      axios
-        .post("http://localhost:8000/api/user/addItem", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log("Online item added successfully:", response.data);
-          setItems([...items, response.data]); // Update items list
-          closeItemModal(); // Close modal
-          clearForm(); // Clear the form after submission
-          toast.success("Online item added successfully!");
-        })
-        .catch((error) => {
-          console.error("Error adding online item:", error);
-          toast.error("Error adding online item.");
-        });
-
-      // POS Availability
-    } else if (isPosAvailable) {
-      formData.append("title", title);
-      formData.append("price", price);
-      formData.append("itemcode", Itemcode); // Ensure exact field names match
-      formData.append("itemVariation", ItemVariation);
-      formData.append("itemPosition", ItemPosition);
-      formData.append("alternateName", AlternateName);
-      formData.append("foodType", FoodType);
-      formData.append("shortCode", ShortCode);
-      formData.append("barCode", BarCode);
-      formData.append("category", category);
-      formData.append("device", deviceName);
-
-      console.log("Form Data: ", {
-        title,
-        price,
-        Itemcode,
-        category,
-        deviceName,
-      });
-
-      axios
-        .post("http://localhost:8000/api/user/POSItems", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log("POS item added successfully:", response.data);
-          setItems([...items, response.data]); // Update items list
-          closeItemModal(); // Close modal
-          clearForm(); // Clear the form after submission
-          toast.success("POS item added successfully!");
-        })
-        .catch((error) => {
-          console.error("Error adding POS item:", error);
-          toast.error("Error adding POS item.");
-        });
-    } else {
-      alert("Please select at least one availability option (Online or POS).");
-    }
-  };
-
-  // Helper function to clear the form fields
-  const clearForm = () => {
-    setId("");
-    setTitle("");
-    setDescription("");
-    setAvailability("");
-    setCondition("");
-    setPrice("");
-    setLink("");
-    setBrand("");
-    setImageFile(null);
-    setItemcode("");
-    setCategory("");
-    setDeviceName("");
-    setItemVariation("");
-    setItemPosition("");
-    setAlternateName("");
-    setFoodType("");
-    setShortCode("");
-    setBarCode("");
-  };
-
-  // File input change handler
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]); // Store the selected file
+    setImageFile(e.target.files[0]);
   };
 
-  // Fetch all devices when the component mounts
   useEffect(() => {
     const fetchDevices = async () => {
       try {
@@ -360,38 +266,41 @@ const Item = () => {
           <table className="min-w-full bg-white border">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b">ItemId</th>
-                <th className="py-2 px-4 border-b">ItemName</th>
-                <th className="py-2 px-4 border-b">Category</th>
-                <th className="py-2 px-4 border-b">Price</th>
+                <th className="py-2 px-4 border-b text-left">ItemId</th>
+                <th className="py-2 px-4 border-b text-left">ItemName</th>
+                <th className="py-2 px-4 border-b text-left">Category</th>
+                <th className="py-2 px-4 border-b text-left">Price</th>
+                <th className="py-2 px-4 border-b text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {items.map((item, index) => (
                 <tr key={index} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border-b">{item.Id}</td>
-                  <td className="py-2 px-4 border-b">{item.ItemName}</td>
+                  <td className="py-2 px-4 border-b">{item.id}</td>
+                  <td className="py-2 px-4 border-b">{item.title}</td>
                   <td className="py-2 px-4 border-b">{item.category}</td>
-                  <td className="py-2 px-4 border-b">{item.Price}</td>
-                  <button
-                    onClick={() => toggleDropdown(item._id)}
-                    className="text-gray-600 hover:text-gray-900"
-                  >
-                    <FaEllipsisV />
-                  </button>
-                  {dropdownOpen === item._id && (
-                    <div
-                      className="absolute left-66 right-59  mt-1 w-40 bg-white border border-gray-200 rounded shadow-lg z-10"
-                      style={{ marginLeft: "-59px" }}
+                  <td className="py-2 px-4 border-b">{item.price}</td>
+                  <td className="py-2 px-4 border-b">
+                    <button
+                      onClick={() => toggleDropdown(item._id)}
+                      className="text-gray-600 hover:text-gray-900"
                     >
-                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        <FaEdit /> Edit
-                      </button>
-                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        <FaTrash /> Delete
-                      </button>
-                    </div>
-                  )}
+                      <FaEllipsisV />
+                    </button>
+                    {dropdownOpen === item._id && (
+                      <div
+                        className="absolute left-66 right-59 mt-1 w-40 bg-white border border-gray-200 rounded shadow-lg z-10"
+                        style={{ marginLeft: "-59px" }}
+                      >
+                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                          <FaEdit className="inline mr-2" /> Edit
+                        </button>
+                        <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                          <FaTrash className="inline mr-2" /> Delete
+                        </button>
+                      </div>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -406,7 +315,7 @@ const Item = () => {
       >
         <h2 className="text-2xl mb-4">Create Item</h2>
 
-        <form onSubmit={handleFormSubmit}>
+        <form>
           {step === 1 && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="mb-4">
@@ -452,7 +361,7 @@ const Item = () => {
               {/* Title Field */}
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold">
-                  Item Variation
+                  ItemName Variation
                 </label>
                 <input
                   type="text"
@@ -466,7 +375,7 @@ const Item = () => {
 
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold">
-                  Alternate Variation
+                  Alternate ItemName Variation
                 </label>
                 <input
                   type="text"
@@ -490,6 +399,34 @@ const Item = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+              </div>
+
+              {/* Location Field */}
+
+              <div>
+                <Select
+                  mode="multiple"
+                  placeholder="Email address, Description, User ID, Location"
+                  value={selectedValues}
+                  onChange={handleChange}
+                  style={{ width: "100%" }}
+                >
+                  <Option key="name" value="Name">
+                    Name
+                  </Option>
+                  <Option key="email" value="Email address">
+                    Email address
+                  </Option>
+                  <Option key="description" value="Description">
+                    Description
+                  </Option>
+                  <Option key="userId" value="User ID">
+                    User ID
+                  </Option>
+                  <Option key="location" value="Location">
+                    Location
+                  </Option>
+                </Select>
               </div>
 
               {/* Altrante Description Field */}
@@ -646,6 +583,19 @@ const Item = () => {
                 />
               </div>
 
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold">
+                  Short code{" "}
+                </label>
+                <input
+                  type="text"
+                  name="Shortcode"
+                  placeholder="Enter Shortcode"
+                  className="p-2 border rounded w-full"
+                  value=""
+                />
+              </div>
+
               {/* Image Field */}
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold">Image </label>
@@ -662,18 +612,6 @@ const Item = () => {
 
           {step === 2 && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Page 2 fields */}
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold">ID *</label>
-                <input
-                  type="text"
-                  name="id"
-                  className="p-2 border rounded w-full"
-                  placeholder="Enter SheetItem ID"
-                  value={id}
-                  onChange={(e) => setId(e.target.value)}
-                />
-              </div>
               {/* Other fields for page 2 */}
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold">
@@ -691,20 +629,6 @@ const Item = () => {
                   <option value="outofstock">Out of Stock</option>
                   <option value="preorder">Pre-order</option>
                 </select>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold">
-                  ItemName
-                </label>
-                <input
-                  type="text"
-                  name="FoodType"
-                  placeholder="Enter SheetItem name"
-                  className="p-2 border rounded w-full"
-                  value={FoodType}
-                  onChange={(e) => setFoodType(e.target.value)}
-                />
               </div>
 
               <div className="mb-4">
@@ -780,19 +704,6 @@ const Item = () => {
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold">
-                  Short code{" "}
-                </label>
-                <input
-                  type="text"
-                  name="Shortcode"
-                  placeholder="Enter Shortcode"
-                  className="p-2 border rounded w-full"
-                  value=""
-                />
-              </div>
-
               {/* isOnlineAvailable Checkbox */}
               <div className="mb-4 flex items-center font-bold">
                 <input
@@ -804,19 +715,25 @@ const Item = () => {
                 />
                 <label className="ml-2 block text-gray-700 flex items-center">
                   {isOnlineAvailable && (
-                    <span
-                      className="material-icons text-green-500 transition-transform transform scale-0 inline-block"
+                    <MdCheckCircle
+                      className="text-green-500 transition-transform transform scale-0 inline-block"
                       style={{
                         transition: "transform 0.3s ease, color 0.3s ease",
                         transform: "scale(1)",
                       }}
-                    >
-                      check_circle
-                    </span>
+                    />
                   )}
                   <div className="flex items-center space-x-2">
-                    <FaMobileAlt className="text-blue-500" /> {/* App icon */}
-                    <FaDesktop className="text-green-500" /> {/* Web icon */}
+                    <FaMobileAlt
+                      className="text-blue-500"
+                      style={{ fontSize: "2rem" }}
+                    />{" "}
+                    {/* App icon */}
+                    <FaDesktop
+                      className="text-green-500"
+                      style={{ fontSize: "2rem" }}
+                    />{" "}
+                    {/* Web icon */}
                     <span className="text-gray-700 font-semibold">
                       App & Web Available
                     </span>
@@ -824,32 +741,32 @@ const Item = () => {
                 </label>
               </div>
 
-              {/* Catalog Available Checkbox */}
               <div className="mb-4 flex items-center font-bold">
                 <input
                   type="checkbox"
                   name="isOnlineAvailable"
-                  checked={isOnlineAvailable}
-                  onChange={() => setIsOnlineAvailable(!isOnlineAvailable)}
+                  checked={isCatlogAvailable}
+                  onChange={() => setIsCatlogAvailable(!isCatlogAvailable)}
                   className="h-4 w-4"
                 />
                 <label className="ml-2 block text-gray-700 flex items-center">
-                  {isOnlineAvailable && (
-                    <span
-                      className="material-icons text-green-500 transition-transform transform scale-0 inline-block"
+                  {isCatlogAvailable && (
+                    <MdCheckCircle
+                      className="text-green-500 transition-transform transform scale-0 inline-block"
                       style={{
                         transition: "transform 0.3s ease, color 0.3s ease",
                         transform: "scale(1)",
                       }}
-                    >
-                      check_circle
-                    </span>
+                    />
                   )}
-                  <div className="flex items-center">
-  <FaSync className="text-blue-500" /> {/* Sync icon */}
-  <span className="ml-2">Catalog Sync Available</span>
-</div>
-                  {/* Changed here */}
+                  <div className="flex items-center ml-2">
+                    <FaSync
+                      className="text-blue-500"
+                      style={{ fontSize: "2rem" }}
+                    />{" "}
+                    {/* Sync icon */}
+                    <span className="ml-2">Catalog Sync Available</span>
+                  </div>
                 </label>
               </div>
 
@@ -864,16 +781,19 @@ const Item = () => {
                 />
                 <label className="ml-2 block text-gray-700 flex items-center">
                   {isPosAvailable && (
-                    <span
-                      className="material-icons text-green-500 transition-transform transform scale-0 inline-block"
+                    <MdCheckCircle
+                      className="text-green-500 transition-transform transform scale-0 inline-block"
                       style={{
                         transition: "transform 0.3s ease, color 0.3s ease",
                         transform: "scale(1)",
                       }}
-                    >
-                      check_circle
-                    </span>
+                    />
                   )}
+                  <MdPointOfSale
+                    className="ml-2 text-gray-500"
+                    style={{ fontSize: "2rem" }}
+                  />
+
                   <span className="ml-2">Is POS Available</span>
                 </label>
               </div>

@@ -19,6 +19,7 @@ import ProtectedRoute from './MainPages/ProtectedRoute';
 import TaxItem from './MainPages/Headr/TaxItem';
 import Categories from './MainPages/Headr/Categories';
 import Termscondion from './MainPages/Termscondion';
+import PrivacyPolicy from './MainPages/PrivacyPolicy';
 
 // eslint-disable-next-line react/prop-types
 const AppLayout = ({ children }) => {
@@ -27,6 +28,7 @@ const AppLayout = ({ children }) => {
   const isSignupPage = location.pathname === '/AdminSignup'; // Check if current route is sign-up
   const isForgotpass = location.pathname === '/forgotPass'; // Check if current route is forgot password
   const isTersmConditon = location.pathname === '/TermsConditon'
+    const isPrivacyPolicy = location.pathname === '/PrivacyPolicy'
 
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
 
@@ -38,9 +40,9 @@ const AppLayout = ({ children }) => {
     <div className="flex flex-col min-h-screen">
     
       {/* Render Navbar and Sidebar only if it's NOT the login, sign-up, or forgot password page */}
-      {!isLoginPage && !isSignupPage && !isForgotpass && !isTersmConditon && <Navbar OpenSidebar={OpenSidebar} />}
+      {!isLoginPage && !isSignupPage && !isForgotpass && !isTersmConditon &&  !isPrivacyPolicy && <Navbar OpenSidebar={OpenSidebar} />}
       <div className="flex flex-grow">
-        {!isLoginPage && !isSignupPage && !isForgotpass && !isTersmConditon && (
+        {!isLoginPage && !isSignupPage && !isForgotpass && !isTersmConditon && !isPrivacyPolicy &&(
           <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} />
         )}
         <div
@@ -76,6 +78,7 @@ function App() {
           <Route path='/ItemTaxes' element={<TaxItem/>}/>
           <Route path='/ItemCategorys' element={<Categories/>}/>
           <Route path='/TermsConditon' element={<Termscondion/>}/>
+          <Route path='/PrivacyPolicy' element={<PrivacyPolicy/>} />
         </Routes>
       </AppLayout>
     </Router>
